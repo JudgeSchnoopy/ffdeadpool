@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>ffdeadpool scores</title>
+		<title>Admin Draft</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -32,19 +32,18 @@
 
 			<!-- Banner -->
 				<section id="banner" class="score">
-					<h2>Current Scores</h2>
-					<p>Showing scores for the beta league</p>
+					<h2>Add a new athlete, assign to team</h2>
 				</section>
 			
 			<!-- Main -->
-				<section id="main" class="container 75%">
+				<section id="main" class="container 80%">
 
 			<section class="box score">
 										
 			<?php
 				$server = "nfldeadpool.ccrbceqwpx93.us-west-2.rds.amazonaws.com";
-				$user = "web";
-				$password = "webform";
+				$user = "drafter";
+				$password = "ryanreynolds";
 				$db = "NFLDeadpool";
 				$link = new mysqli($server, $user, $password, $db);
 					if ($link->connect_error) {
@@ -103,7 +102,7 @@
 						<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
 					</ul>
 					<ul class="copyright">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						<li>&copy; ffdeadpool by Judge Schnoopy. All rights reserved.</li>
 					</ul>
 				</footer>
 
