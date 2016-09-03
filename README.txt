@@ -10,3 +10,5 @@ to have some fun.
 The athletes will or will not get hurt regardless of our little game.
 
 This site uses HTML, CSS, and PHP.  The backend is MySQL.
+
+There is still a lot to do to test this system.
