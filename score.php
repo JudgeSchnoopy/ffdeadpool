@@ -43,8 +43,8 @@
 										
 			<?php
 				$server = "nfldeadpool.ccrbceqwpx93.us-west-2.rds.amazonaws.com";
-				$user = "root";
-				$password = "qu4rtsy1";
+				$user = "web";
+				$password = "webform";
 				$db = "NFLDeadpool";
 				$link = new mysqli($server, $user, $password, $db);
 					if ($link->connect_error) {
