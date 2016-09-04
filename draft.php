@@ -31,8 +31,8 @@
 				</header>
 
 			<!-- Banner -->
-				<section id="banner" class="score">
-					<h2>Add a new athlete, assign to team</h2>
+				<section id="banner" class="draft">
+					<h2>Draft a new player!</h2>
 				</section>
 			
 <!-- Main -->
@@ -41,7 +41,7 @@
 $username = "jgolden";
 $password = "webform";
 $nonsense = "HeyRyanReynoldsisactuallyaprettygoodactorOK";
-$server = "localhost";
+$server = "nfldeadpool.ccrbceqwpx93.us-west-2.rds.amazonaws.com";
 $user = "drafter";
 $dbpassword = "ryanreynolds";
 $db = "NFLDeadpool";
@@ -52,11 +52,11 @@ $link = new mysqli($server, $user, $dbpassword, $db);
 if (isset($_COOKIE['PrivatePageLogin'])) {
    if ($_COOKIE['PrivatePageLogin'] == md5($password.$nonsense)) {
 ?>
-		<section class="box">
+		<section class="box draft">
 										
 			<form action="<?php echo $_SERVER['PHP_SELF']?>?p=athlete" method="post">
-				FirstName: <input type="text" class="styled" name="FirstName">
-				LastName: <input type="text" class="styled" name="LastName">
+				FirstName: <input type="text" name="FirstName">
+				LastName: <input type="text" name="LastName">
 				Team: <input type="text" class="styled" name="Team">
 				Position: <input type="text" class="styled" name="Position">
 				TeamName: <select name="TeamID">
@@ -73,7 +73,7 @@ if (isset($_COOKIE['PrivatePageLogin'])) {
 					<option value='1.5'> 1.5 </option>
 					<option value='2'> 2 </option>
 				</select><br>
-				<input type="submit" id="formsubmit" value="formsubmit">
+				<input type="submit" id="formsubmit" value="Draft!">
 			</form>
 			
 <?php	if (isset($_GET['p']) && $_GET['p'] == "athlete") {

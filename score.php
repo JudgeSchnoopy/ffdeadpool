@@ -42,7 +42,7 @@
 			<section class="box score">
 										
 			<?php
-				$server = "localhost";
+				$server = "nfldeadpool.ccrbceqwpx93.us-west-2.rds.amazonaws.com";
 				$user = "web";
 				$password = "webform";
 				$db = "NFLDeadpool";

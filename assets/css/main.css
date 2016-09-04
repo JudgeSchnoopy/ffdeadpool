@@ -1991,7 +1991,7 @@
 /* Form */
 
 	form {
-		margin: 0 0 2em 0;
+		margin: 0 0 1em 0;
 	}
 
 	label {
@@ -2012,12 +2012,12 @@
 		-ms-appearance: none;
 		appearance: none;
 		background: #f8f8f8;
-		border-radius: 6px;
+		border-radius: 1px;
 		border: solid 1px #e5e5e5;
 		color: inherit;
 		display: block;
 		outline: 0;
-		padding: 0 1em;
+		padding: 0 0.5em;
 		text-decoration: none;
 		width: 100%;
 	}
@@ -2076,11 +2076,11 @@
 	input[type="password"],
 	input[type="email"],
 	select {
-		height: 3em;
+		height: 2em;
 	}
 
 	textarea {
-		padding: 0.75em 1em;
+		padding: 0.5em 1em;
 	}
 
 	input[type="checkbox"],
@@ -2303,8 +2303,9 @@
 					border-radius: 0 0 6px 6px;
 				}
 
-		.box.form {
-			padding: 0em;
+		.box.draft {
+			padding: 2em;
+			margin-top: 0em;
 		}
 
 /* Icon */
@@ -3381,6 +3382,9 @@
 			}
 			#banner.score {
 				padding: 6em 0 18em 0;
+			}
+			#banner.draft {
+				padding: 0em 0 18em 0;
 			}
 
 	}
