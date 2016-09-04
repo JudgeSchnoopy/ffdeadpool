@@ -35,62 +35,98 @@
 					<h2>Add a new athlete, assign to team</h2>
 				</section>
 			
-			<!-- Main -->
-				<section id="main" class="container 80%">
+<!-- Main -->
+	<section id="main" class="container 80%">
+<?php
+$username = "jgolden";
+$password = "webform";
+$nonsense = "HeyRyanReynoldsisactuallyaprettygoodactorOK";
+$server = "nfldeadpool.ccrbceqwpx93.us-west-2.rds.amazonaws.com";
+$user = "drafter";
+$dbpassword = "ryanreynolds";
+$db = "NFLDeadpool";
+$link = new mysqli($server, $user, $dbpassword, $db);
+	if ($link->connect_error) {
+		die("Bummer dude SQL connection error: " . $link->connect_error); }
 
-			<section class="box score">
+if (isset($_COOKIE['PrivatePageLogin'])) {
+   if ($_COOKIE['PrivatePageLogin'] == md5($password.$nonsense)) {
+?>
+		<section class="box score">
 										
-			<?php
-				$server = "nfldeadpool.ccrbceqwpx93.us-west-2.rds.amazonaws.com";
-				$user = "drafter";
-				$password = "ryanreynolds";
-				$db = "NFLDeadpool";
-				$link = new mysqli($server, $user, $password, $db);
-					if ($link->connect_error) {
-						die("Bummer dude SQL connection error: " . $link->connect_error); }
-				$findteam = "SELECT * FROM Teams JOIN Players ON Teams.PlayerID = Players.PlayerID";
-				if ($teamnum = $link->query($findteam)){
-					$teamrow = $teamnum->num_rows;
-					if ($teamrow > 0) {
-					while ($row = $teamnum->fetch_assoc()) {
-						$allinfo = "SELECT * from Players JOIN Teams ON Players.PlayerID = Teams.PlayerID JOIN Roster ON Teams.TeamID = Roster.TeamID JOIN athletes ON Roster.AthleteID = athletes.AthleteID WHERE Teams.TeamID = " . $row['TeamID'];
-						
-						if ($printer = $link->query($allinfo)) {
-							$row_cnt = $printer->num_rows;
-								echo "<table border='1'>";
-									echo "<caption style='text-align:left;'>&nbsp&nbsp" . $row['TeamName'] . " : &nbsp&nbsp" . $row['TeamScore'] . "<span style='float:right;'>Manager:  " . $row['PlayerName'] . "</span></caption>";
-									echo "<tr>";
-										echo "<th width='30%'>Athlete</th>";
-										echo "<th width='25%'>Team</th>";
-										echo "<th width='15%'>Score</th>";
-										echo "<th width='15%'>Bonus</th>";
-										echo "<th width='15%'>deadpool</th>";
-									echo "</tr>";
-							if ($row_cnt > 0) {
-								while ($row = $printer->fetch_assoc()) {
-	
-								echo "<tr>";
-									echo "<td>" . $row['FirstName'] . " " . $row['LastName'] . "</td>";
-									echo "<td>" . $row['Team'] . "</td>";
-									echo "<td>" . $row['InjuryScore'] . "</td>";
-									echo "<td>" . $row['Bonus'] . "</td>";
-									echo "<td>" . $row['Points'] . "</td>";
-								echo "</tr>";
-								}
-							}
-						else {
-							echo "No results for this team.  Sorry.";
-						}
-					
-						echo "</table>";}}}}
-						$link->close();
-					?>
-					
-					<?php  ?>
-							
-				</section>
-			</section>
+			<form action="" method="post">
+				FirstName: <input type="text" name="FirstName"><br>
+				LastName: <input type="text" name="LastName"><br>
+				Team: <input type="text" name="Team"><br>
+				Position: <input type="text" name="Position"><br>
+				TeamName: <select name="TeamID">
+				Bonus: <select name="Bonus">
+					<option value=1> 1 </option>
+					<option value=1.5> 1.5 </option>
+					<option value=2> 2 </option>
+				</select>
+				<?php $findteams = $link->query("SELECT TeamID, TeamName from Teams");
+					while ($row = $findteams->fetch_assoc()) {
+						unset($TeamID, $TeamName);
+						$id = $row['TeamID'];
+						$name = $row['TeamName'];
+						echo '<option value="'.$TeamID.'">'.$TeamName.'</option>';
+					} ?>
+				</select>
+				<br><input type="submit">
+			</form>
+			
+<?php	if(isset($_POST['submit'])) {
 
+				$FirstName = $_POST['FirstName'];
+	   			$LastName = $_POST['LastName'];
+	   			$Team = $_POST['Team'];
+	   			$Position = $_POST['Position'];
+	   			$TeamID = $_POST['TeamID'];
+				$Bonus = $_POST['Bonus'];
+						
+				$playeraction = "INSERT INTO athletes (FirstName, LastName, Team, Position, InjuryScore)
+							VALUES ('$FirstName', '$LastName', '$Team', '$Position',DEFAULT)";
+				$athlete = $link->query($playeraction);
+				echo $athlete;
+				
+				$teamaction = "INSERT INTO Roster VALUES ('$TeamID', $athlete['AthleteID'], '$Bonus',0)";
+				$draft = $link->query($teamaction);
+				echo $draft;
+}
+?>	
+		</section>
+<?php
+      exit;
+   } else {
+      echo "Bad Cookie.";
+      exit;
+   }
+}
+
+if (isset($_GET['p']) && $_GET['p'] == "login") {
+   if ($_POST['user'] != $username) {
+      echo "Sorry, that username does not match.";
+      exit;
+   } else if ($_POST['keypass'] != $password) {
+      echo "Sorry, that password does not match.";
+      exit;
+   } else if ($_POST['user'] == $username && $_POST['keypass'] == $password) {
+      setcookie('PrivatePageLogin', md5($_POST['keypass'].$nonsense));
+      header("Location: $_SERVER[PHP_SELF]");
+   } else {
+      echo "Sorry, you could not be logged in at this time.";
+   }
+}
+?>
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>?p=login" method="post">
+<label><input type="text" name="user" id="user" />Username</label><br />
+<label><input type="password" name="keypass" id="keypass" /> Password</label><br />
+<input type="submit" id="submit" value="Login" />
+</form>
+		
+	</section>
+			
 			<!-- Footer -->
 				<footer id="footer">
 					<ul class="icons">
