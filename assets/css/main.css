@@ -2303,6 +2303,10 @@
 					border-radius: 0 0 6px 6px;
 				}
 
+		.box.form {
+			padding: 0em;
+		}
+
 /* Icon */
 
 	.icon {
@@ -2755,6 +2759,22 @@
 			cursor: default;
 			opacity: 0.25;
 		}
+
+/* Form */
+
+#form input[type="text"] {
+    border: 1px solid #FFFFFF;
+    font-size: 10px;
+    padding: 2px;width: 200px;
+}
+
+#form input.styled {
+    border: 1px solid #FFFFFF;
+    font-size: 10px;
+    padding: 2px;
+    width: 200px;
+}
+
 
 /* Header */
 

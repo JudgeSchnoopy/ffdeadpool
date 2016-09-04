@@ -17,7 +17,7 @@
 						<ul>
 							<li><a href="index.html">Home</a></li>
 							<li>
-								<a href="#" class="icon fa-angle-down">Info</a>
+								<a href="" class="icon fa-angle-down">Info</a>
 								<ul>
 									<li><a href="rules.html">Rules</a></li>
 									<li><a href="score.php">Scores</a></li>
@@ -25,7 +25,7 @@
 									<li><a href="http://www.nfl.com/injuries" target="_blank">NFL.com Injury Report</a></li>
 								</ul>
 							</li>
-							<li><a href="#" class="button">Sign Up</a></li>
+							<li><a href="" class="button">Sign Up</a></li>
 						</ul>
 					</nav>
 				</header>
@@ -41,7 +41,7 @@
 $username = "jgolden";
 $password = "webform";
 $nonsense = "HeyRyanReynoldsisactuallyaprettygoodactorOK";
-$server = "nfldeadpool.ccrbceqwpx93.us-west-2.rds.amazonaws.com";
+$server = "localhost";
 $user = "drafter";
 $dbpassword = "ryanreynolds";
 $db = "NFLDeadpool";
@@ -52,32 +52,32 @@ $link = new mysqli($server, $user, $dbpassword, $db);
 if (isset($_COOKIE['PrivatePageLogin'])) {
    if ($_COOKIE['PrivatePageLogin'] == md5($password.$nonsense)) {
 ?>
-		<section class="box score">
+		<section class="box">
 										
-			<form action="" method="post">
-				FirstName: <input type="text" name="FirstName"><br>
-				LastName: <input type="text" name="LastName"><br>
-				Team: <input type="text" name="Team"><br>
-				Position: <input type="text" name="Position"><br>
+			<form action="<?php echo $_SERVER['PHP_SELF']?>?p=athlete" method="post">
+				FirstName: <input type="text" class="styled" name="FirstName">
+				LastName: <input type="text" class="styled" name="LastName">
+				Team: <input type="text" class="styled" name="Team">
+				Position: <input type="text" class="styled" name="Position">
 				TeamName: <select name="TeamID">
-				Bonus: <select name="Bonus">
-					<option value=1> 1 </option>
-					<option value=1.5> 1.5 </option>
-					<option value=2> 2 </option>
-				</select>
 				<?php $findteams = $link->query("SELECT TeamID, TeamName from Teams");
 					while ($row = $findteams->fetch_assoc()) {
 						unset($TeamID, $TeamName);
-						$id = $row['TeamID'];
-						$name = $row['TeamName'];
+						$TeamID = $row['TeamID'];
+						$TeamName = $row['TeamName'];
 						echo '<option value="'.$TeamID.'">'.$TeamName.'</option>';
 					} ?>
 				</select>
-				<br><input type="submit">
+				Bonus: <select name="Bonus">
+					<option value='1'> 1 </option>
+					<option value='1.5'> 1.5 </option>
+					<option value='2'> 2 </option>
+				</select><br>
+				<input type="submit" id="formsubmit" value="formsubmit">
 			</form>
 			
-<?php	if(isset($_POST['submit'])) {
-
+<?php	if (isset($_GET['p']) && $_GET['p'] == "athlete") {
+				echo "A thing happened!";
 				$FirstName = $_POST['FirstName'];
 	   			$LastName = $_POST['LastName'];
 	   			$Team = $_POST['Team'];
@@ -88,12 +88,19 @@ if (isset($_COOKIE['PrivatePageLogin'])) {
 				$playeraction = "INSERT INTO athletes (FirstName, LastName, Team, Position, InjuryScore)
 							VALUES ('$FirstName', '$LastName', '$Team', '$Position',DEFAULT)";
 				$athlete = $link->query($playeraction);
-				echo $athlete;
-				
-				$teamaction = "INSERT INTO Roster VALUES ('$TeamID', $athlete['AthleteID'], '$Bonus',0)";
+						echo "athlete crammed into athletes table!";
+				$AthleteIDcheck = "SELECT AthleteID FROM athletes WHERE FirstName='$FirstName' AND LastName='$LastName' AND Team='$Team' AND Position='$Position'";
+						echo $AthleteIDcheck;
+				$AthleteID = $link->query($AthleteIDcheck);
+						$row = $AthleteID->fetch_assoc();
+				$teamaction = "INSERT INTO Roster VALUES ('$TeamID', " . $row['AthleteID'] . ", '$Bonus',0)";
+						echo $teamaction;
 				$draft = $link->query($teamaction);
-				echo $draft;
+				echo 'Roster position drafted';
+				$link->close();
 }
+		else {
+			echo "Not a submit page"; }
 ?>	
 		</section>
 <?php
