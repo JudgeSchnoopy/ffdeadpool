@@ -63,6 +63,7 @@
 									echo "<tr>";
 										echo "<th width='30%'>Athlete</th>";
 										echo "<th width='25%'>Team</th>";
+										echo "<th width='10%'>Position</th>";
 										echo "<th width='15%'>Score</th>";
 										echo "<th width='15%'>Bonus</th>";
 										echo "<th width='15%'>deadpool</th>";
@@ -73,6 +74,7 @@
 								echo "<tr>";
 									echo "<td>" . $row['FirstName'] . " " . $row['LastName'] . "</td>";
 									echo "<td>" . $row['Team'] . "</td>";
+									echo "<td>" . $row['Position'] . "</td>";
 									echo "<td>" . $row['InjuryScore'] . "</td>";
 									echo "<td>" . $row['Bonus'] . "</td>";
 									echo "<td>" . $row['Points'] . "</td>";
