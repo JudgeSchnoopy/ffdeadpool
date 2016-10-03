@@ -54,7 +54,7 @@
 					$teamrow = $teamnum->num_rows;
 					if ($teamrow > 0) {
 					while ($row = $teamnum->fetch_assoc()) {
-						$allinfo = "SELECT * from Players JOIN Teams ON Players.PlayerID = Teams.PlayerID JOIN Roster ON Teams.TeamID = Roster.TeamID JOIN athletes ON Roster.AthleteID = athletes.AthleteID WHERE Teams.TeamID = " . $row['TeamID'];
+						$allinfo = "SELECT * from Players JOIN Teams ON Players.PlayerID = Teams.PlayerID JOIN Roster ON Teams.TeamID = Roster.TeamID JOIN athletes ON Roster.AthleteID = athletes.AthleteID WHERE Teams.TeamID = " . $row['TeamID'] . " Order By athletes.Position ASC, Roster.Bonus DESC";
 						
 						if ($printer = $link->query($allinfo)) {
 							$row_cnt = $printer->num_rows;
